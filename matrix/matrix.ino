@@ -11,10 +11,10 @@
 #define CLK 11  // MUST be on PORTB! (Use pin 11 on Mega)
 #define OE  9
 #define LAT 10
-#define A   A0
-#define B   A1
-#define C   A2
-#define D   A3
+#define A   2
+#define B   3
+#define C   4
+#define D   5
 #define WIFI_CEPin 12
 #define WIFI_CSNPin 13
 #define DebugTestPin A4

@@ -39,7 +39,7 @@ void Radio::setup(){
   }
   radio.startListening();
 
-  radio.printDetails();
+  //radio.printDetails();
 }
 
 void Radio::changeWritingChannel(int channel){

@@ -11,7 +11,7 @@
 //define pinout
 #define LightBulbPin 21
 #define LightBulbPin2 22
-//#define LightBulbPin3 23
+#define LightBulbPin3 23
 #define LightBulbButtonPin 39
 #define tonePin 6
 #define YesPin 37
@@ -84,7 +84,7 @@ bool debugging = false;
 LiquidCrystal lcd(LCD_RS, LCD_ENABLE, LCD_D0, LCD_D1, LCD_D2, LCD_D3, LCD_D4,LCD_D5,LCD_D6,LCD_D7);//RGB LCD
 Adafruit_NeoPixel jewel = Adafruit_NeoPixel(7, LightBulbPin);
 Adafruit_NeoPixel ring12 = Adafruit_NeoPixel(12, LightBulbPin2);
-//Adafruit_NeoPixel ring16 = Adafruit_NeoPixel(18, LightBulbPin3);
+Adafruit_NeoPixel ring16 = Adafruit_NeoPixel(18, LightBulbPin3);
 Radio radio(RadioRole, WIFI_CEPin, WIFI_CSNPin);// Set up nRF24L01 radio on SPI bus plus pins 9 & 10
 Parser parser = Parser();//encodes and decodes the values.
 Controller controller = Controller(LightBulbButtonPin, YesPin, NoPin, LinePin, CirclePin, RectanglePin, RoundRectanglePin, TrianglePin);//determines what is pressed.
@@ -97,8 +97,8 @@ void setup()
   jewel.show();
   ring12.begin();
   ring12.show();
-//  ring16.begin();
-//  ring16.show();
+  ring16.begin();
+  ring16.show();
 
   //
   // Print preamble
@@ -217,11 +217,10 @@ void IlluminateBulb(bool illuminate){
       delay(20);  
     }
     ring12.show();// Turn it on
-/*8    for(int ring16_index = 0; ring16_index < ring16.numPixels(); ring16_index++){
+    for(int ring16_index = 0; ring16_index < ring16.numPixels(); ring16_index++){
       ring16.setPixelColor(ring16_index,red[idx],green[idx],blue[idx]);      
     }
     ring16.show();// Turn it on
-    */
  
     setBacklight(red[idx], green[idx], blue[idx]);
     delay(500);
@@ -236,7 +235,7 @@ void IlluminateBulb(bool illuminate){
   else{
     jewel.clear();
     ring12.clear();
-//    ring16.clear();
+    ring16.clear();
 
   }
 }
@@ -480,7 +479,26 @@ void test_loop(){
 void loop(void)
 {
   if(debugging){
-    test_loop();
+    int idx = color_index % numColors;
+    for(int jewel_index = 0; jewel_index < jewel.numPixels(); jewel_index++){
+      jewel.setPixelColor(jewel_index,red[idx],green[idx],blue[idx]);    
+      delay(20);  
+    }
+    jewel.show();// Turn it on 
+    for(int ring12_index = 0; ring12_index < ring12.numPixels(); ring12_index++){
+      ring12.setPixelColor(ring12_index,red[idx],green[idx],blue[idx]);    
+      delay(20);  
+    }
+    ring12.show();// Turn it on
+    for(int ring16_index = 0; ring16_index < ring16.numPixels(); ring16_index++){
+      ring16.setPixelColor(ring16_index,red[idx],green[idx],blue[idx]);      
+    }
+    ring16.show();// Turn it on
+lcd.setCursor(0,0);
+lcd.print(idx);
+    delay(1000);
+    color_index ++;
+    //test_loop();
   }else{
     if(artist_status == waiting_to_start){
       WaitToStartLoop();

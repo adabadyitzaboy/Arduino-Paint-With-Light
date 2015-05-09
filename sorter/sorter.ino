@@ -7,7 +7,7 @@
 #include <nRF24L01.h>
 #include "Radio.h"
 #include "Parser.h"
-#include "Sorter.h"
+#include "SortRoutine.h"
 
 //define pinout
 #define tonePin 7
@@ -42,7 +42,7 @@ int num_sorted = 0;
 
 //Create objects
 NS_Rainbow ns_strip = NS_Rainbow(N_CELL,LED_STRIP_PIN);//Led Strip
-Sorter sorter(&ns_strip, HAND_PIN, redLed, greenLed, blueLed);
+SortRoutine sorter(&ns_strip, HAND_PIN, redLed, greenLed, blueLed);
 Parser parser = Parser();//encodes and decodes the values.
 Radio radio(2, WIFI_CEPin, WIFI_CSNPin);
 
